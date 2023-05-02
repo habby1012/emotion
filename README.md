@@ -2,8 +2,9 @@
 
 
 2. install some packages
-    pip install pypaz --user 
-    pip install pygame 
+
+    pip install pypaz --user <br>
+    pip install pygame <br>
     pip install opencv-python 
 
 3. IoTtalk
