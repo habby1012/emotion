@@ -55,26 +55,28 @@ def reset_emotion():
 
 
 if __name__ == "__main__":
-    # 初始化攝像頭
+    # 初始化攝影鏡頭
     cap = cv2.VideoCapture(0)
 
-    # 檢查攝像頭是否成功打開
+    # 檢查攝影鏡頭是否成功打開
     if not cap.isOpened():
-        print("無法打開攝像頭")
+        print("無法打開攝影鏡頭")
 
-    # 創建表情檢測器實例
+    # 創建emotion_detector實例
     emotion_detector = EmotionDetector()
 
+    # 用來判斷一秒間隔
     last_print_time = time.time()
+    
     try:
         while True:
-            # 從攝像頭讀取一幀圖像
+            # 從攝影鏡頭讀取一幀圖像
             ret, frame = cap.read()
             if not ret:
                 print("無法讀取攝像頭數據")
                 break
 
-            # 使用表情檢測器處理圖像
+            # 使用emotion_detector處理圖像
             result = emotion_detector(frame)
 
             # 顯示處理後的圖像
@@ -82,7 +84,6 @@ if __name__ == "__main__":
             cv2.waitKey(1)
 
             current_time = time.time()
-            # 打印檢測到的表情結果
             if current_time - last_print_time > 1:
                 for box2D in result['boxes2D']:
                     print("表情結果：", box2D.class_name)
@@ -90,42 +91,46 @@ if __name__ == "__main__":
                 
                 emo = DAN.pull('emotion-o')
                 if emo == ['happy']:
-                    print(happy)
                     happy = happy + 1
+                    print(happy)
                 elif emo == ['surprise']:
                     surprise = surprise + 1
+                    print(surprise)
                 elif emo == ['angry']:
-                    print(angry)
                     angry = angry + 1
+                    print(angry)
                 elif emo == ['sad']:
                     sad = sad + 1
+                    print(sad)
                 elif emo == ['disgust']:
                     disgust = disgust + 1
+                    print(disgust)
                 elif emo == ['fear']:
                     fear = fear + 1
-                
-                if happy >= 5:
+                    print(fear)
+
+                if happy >= 3:
                     reset_emotion()
                     pygame.mixer.music.load("happy.mp3")
                     pygame.mixer.music.play()
                     
-                elif surprise >= 5:
+                elif surprise >= 3:
                     pygame.mixer.music.load("surprise.mp3")
                     pygame.mixer.music.play()
                     reset_emotion()
-                elif angry >= 5:
+                elif angry >= 3:
                     pygame.mixer.music.load("angry.mp3")
                     pygame.mixer.music.play()
                     reset_emotion()
-                elif sad >= 5:
+                elif sad >= 3:
                     pygame.mixer.music.load("sad.mp3")
                     pygame.mixer.music.play()
                     reset_emotion()
-                elif disgust >= 5:
+                elif disgust >= 3:
                     pygame.mixer.music.load("disgust.mp3")
                     pygame.mixer.music.play()
                     reset_emotion()
-                elif fear >= 5:
+                elif fear >= 3:
                     pygame.mixer.music.load("fear.mp3")
                     pygame.mixer.music.play()
                     reset_emotion()
