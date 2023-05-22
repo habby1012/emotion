@@ -80,54 +80,62 @@ if __name__ == "__main__":
 
             current_time = time.time()
             
-            # 時間間隔兩秒就push
-            if current_time - last_print_time > 2:
+            # 設定時間間隔
+            time_slot = 1
+            # 設定情緒到幾次啟動音效
+            emotion_count = 3
+
+            if current_time - last_print_time > time_slot:
                 for box2D in result['boxes2D']:
-                    print("表情結果：", box2D.class_name)
                     DAN.push('emotion', [box2D.class_name])
                 
                 emo = DAN.pull('emotion-o')
                 if emo == ['happy']:
                     happy = happy + 1
-                    print(happy)
+                    print("happy:", happy)
                 elif emo == ['surprise']:
                     surprise = surprise + 1
-                    print(surprise)
+                    print("surprise:", surprise)
                 elif emo == ['angry']:
                     angry = angry + 1
-                    print(angry)
+                    print("angry:", angry)
                 elif emo == ['sad']:
                     sad = sad + 1
-                    print(sad)
+                    print("sad:", sad)
                 elif emo == ['disgust']:
                     disgust = disgust + 1
-                    print(disgust)
+                    print("disgust:", disgust)
                 elif emo == ['fear']:
                     fear = fear + 1
-                    print(fear)
+                    print("fear:", fear)
 
-                if happy >= 2:
+                if happy >= emotion_count:
+                    print("------reset------")
                     reset_emotion()
                     pygame.mixer.music.load("happy.mp3")
-                    pygame.mixer.music.play()
-                    
-                elif surprise >= 2:
+                    pygame.mixer.music.play()     
+                elif surprise >= emotion_count:
+                    print("------reset------")
                     pygame.mixer.music.load("surprise.mp3")
                     pygame.mixer.music.play()
                     reset_emotion()
-                elif angry >= 2:
+                elif angry >= emotion_count:
+                    print("------reset------")
                     pygame.mixer.music.load("angry.mp3")
                     pygame.mixer.music.play()
                     reset_emotion()
-                elif sad >= 2:
+                elif sad >= emotion_count:
+                    print("------reset------")
                     pygame.mixer.music.load("sad.mp3")
                     pygame.mixer.music.play()
                     reset_emotion()
-                elif disgust >= 2:
+                elif disgust >= emotion_count:
+                    print("------reset------")
                     pygame.mixer.music.load("disgust.mp3")
                     pygame.mixer.music.play()
                     reset_emotion()
-                elif fear >= 2:
+                elif fear >= emotion_count:
+                    print("------reset------")
                     pygame.mixer.music.load("fear.mp3")
                     pygame.mixer.music.play()
                     reset_emotion()
