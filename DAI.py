@@ -13,7 +13,7 @@ mac_addr = 'hsuuu'
 Reg_addr = 'hsuuu_emotion'
 DAN.profile['dm_name'] = 'emotion'
 DAN.profile['df_list'] = ['emotion','emotion-o']
-DAN.profile['d_name']  = 'emotion2'
+DAN.profile['d_name']  = 'emotion3'
 DAN.device_registration_with_retry(ServerURL, Reg_addr)
 
 happy = 0
@@ -55,28 +55,23 @@ def reset_emotion():
 
 
 if __name__ == "__main__":
-    # 初始化攝影鏡頭
     cap = cv2.VideoCapture(0)
 
-    # 檢查攝影鏡頭是否成功打開
     if not cap.isOpened():
         print("無法打開攝影鏡頭")
 
-    # 創建emotion_detector實例
     emotion_detector = EmotionDetector()
 
-    # 用來判斷一秒間隔
+    # 用來判斷push的時間間隔
     last_print_time = time.time()
     
     try:
         while True:
-            # 從攝影鏡頭讀取一幀圖像
             ret, frame = cap.read()
             if not ret:
                 print("無法讀取攝像頭數據")
                 break
 
-            # 使用emotion_detector處理圖像
             result = emotion_detector(frame)
 
             # 顯示處理後的圖像
@@ -84,7 +79,9 @@ if __name__ == "__main__":
             cv2.waitKey(1)
 
             current_time = time.time()
-            if current_time - last_print_time > 1:
+            
+            # 時間間隔兩秒就push
+            if current_time - last_print_time > 2:
                 for box2D in result['boxes2D']:
                     print("表情結果：", box2D.class_name)
                     DAN.push('emotion', [box2D.class_name])
@@ -109,28 +106,28 @@ if __name__ == "__main__":
                     fear = fear + 1
                     print(fear)
 
-                if happy >= 3:
+                if happy >= 2:
                     reset_emotion()
                     pygame.mixer.music.load("happy.mp3")
                     pygame.mixer.music.play()
                     
-                elif surprise >= 3:
+                elif surprise >= 2:
                     pygame.mixer.music.load("surprise.mp3")
                     pygame.mixer.music.play()
                     reset_emotion()
-                elif angry >= 3:
+                elif angry >= 2:
                     pygame.mixer.music.load("angry.mp3")
                     pygame.mixer.music.play()
                     reset_emotion()
-                elif sad >= 3:
+                elif sad >= 2:
                     pygame.mixer.music.load("sad.mp3")
                     pygame.mixer.music.play()
                     reset_emotion()
-                elif disgust >= 3:
+                elif disgust >= 2:
                     pygame.mixer.music.load("disgust.mp3")
                     pygame.mixer.music.play()
                     reset_emotion()
-                elif fear >= 3:
+                elif fear >= 2:
                     pygame.mixer.music.load("fear.mp3")
                     pygame.mixer.music.play()
                     reset_emotion()
@@ -139,6 +136,5 @@ if __name__ == "__main__":
             
 
     finally:
-        # 釋放資源並關閉窗口
         cap.release()
         cv2.destroyAllWindows()
