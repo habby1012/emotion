@@ -16,10 +16,11 @@
     python DAI.py
     register your emotion model
     
-    六個emotion，分別是happy、sad、surprise、angry、disgust、fear。
+    六個emotion，分別是happy、sad、surprise、angry、disgust、fear。(neutral無音效)
     
-    1. emotion音效: 每兩秒判斷一次情緒，若有一個情緒達到2次，會撥出相對應的音效。播完音效後，情緒數量會重置
-    2. emotion轉換燈泡: 每兩秒判斷一次情緒，不同的情緒對應到不同的燈泡顏色。
+    可以自行設定DAI.py裡的 time_slot、emotion_count。
+    1. emotion音效: 每(time_slot)秒判斷一次情緒，當情緒數量達(emotion_count)次會播出相對應的音效。播完音效後，所有情緒數量重置。
+    2. emotion轉換燈泡: 每(time_slot)秒判斷一次情緒，不同的情緒對應到不同的燈泡顏色。
     
 
 > [SSL: CERTIFICATE_VERIFY_FAILED] (MacBook會遇到) 
