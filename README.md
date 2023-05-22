@@ -12,8 +12,8 @@
 
     register a bulb by your own
 
-4. execute
-    python DAI.py
+4. execute <br>
+    python DAI.py <br>
     register your emotion model
     
     六個emotion，分別是happy、sad、surprise、angry、disgust、fear。
